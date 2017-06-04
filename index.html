@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Crystal Game</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<div>
+	<div id = instructionsDiv>Instructions:Press Start Game</div>
+<div>
+<button id = startGame type="button" class="btn btn-primary">Start Game</button>
+<button id = c1 type="button" class="btn btn-primary">Crystal 1</button>
+<button id = c2 type="button" class="btn btn-primary">Crystal 2</button>
+<button id = c3 type="button" class="btn btn-primary">Crystal 3</button>
+<button id = c4 type="button" class="btn btn-primary">Crystal 4</button>
+
+<!-- Target Number Div -->
+<div>Target Number
+	<div id = targetNumberDiv>--</div>
+</div>
+
+<div>Crystal Counter
+	<div id = crystalCounterDiv>--</div>	
+</div>
+
+<!-- Wins/Losses divs -->
+<div>Wins
+	<div id = winsDiv>--</div>
+</div>
+
+<div>Losses
+	<div id = lossesDiv>--</div>
+</div>
+
+<!-- test append to div -->
+<!-- <div id = test>TEST</div> -->
+
+
+</body>
+
+
+<script type="text/javascript">
+// create variables
+var targetNumber
+var wins = 0
+var losses = 0
+var gameRunning = false
+var crystalList = ["#c1", "#c2", "#c3", "#c4"]
+var crystalTotal = 0
+
+
+//Start game. Assign target number and numbers to each crystal button.
+$("#startGame").click(function(){
+gameRunning = true
+crystalTotal = 0
+targetNumber = Math.floor(Math.random() * 100) + 1
+$("#instructionsDiv").empty();
+$("#instructionsDiv").append("Add the Crystals to equal the Target Number")
+$("#targetNumberDiv").empty();
+$("#targetNumberDiv").append(targetNumber);
+$("#crystalCounterDiv").empty()
+$("#crystalCounterDiv").append("--")
+
+
+// loop thru buttons and assign random number between 1 annd 20
+for(var i = 0; i < crystalList.length; i++){
+	$(crystalList[i]).attr("data-invisNumber", Math.floor(Math.random() * 20) + 1)
+	 console.log("Crystal Vaules " + $(crystalList[i]).attr("data-invisNumber"))
+}
+})
+
+
+//Create Function  to get button's data value and add to CrystalTotal
+ function Crystal(button) {
+ 	if(!gameRunning){return}
+
+ 	if (gameRunning){
+	$("#crystalCounterDiv").empty();
+	crystalTotal += parseInt(($(button).attr("data-invisNumber")));
+	$("#crystalCounterDiv").append(crystalTotal);
+
+		if(crystalTotal == targetNumber){
+		alert("You Won!")
+		wins++
+		$("#winsDiv").empty()
+		$("#winsDiv").append(wins)
+		gameRunning = false
+		$("#instructionsDiv").empty();
+		$("#instructionsDiv").append("Winning: Press Start Game")
+		return
+		}
+
+		else if(crystalTotal > targetNumber){
+		alert("You Suck")
+		losses++
+		$("#lossesDiv").empty()
+		$("#lossesDiv").append(losses)
+		gameRunning = false
+		$("#instructionsDiv").empty();
+		$("#instructionsDiv").append("Losing: Press Start Game")
+		return
+		} 
+	}
+ 	
+
+ 	
+
+	console.log(crystalTotal)
+	console.log(targetNumber)
+	}
+
+//Call Function for clicking the buttons
+$("#c1").click(function(){Crystal(crystalList[0])})
+$("#c2").click(function(){Crystal(crystalList[1])})
+$("#c3").click(function(){Crystal(crystalList[2])})
+$("#c4").click(function(){Crystal(crystalList[3])})
+
+// console.log(targetNumber)
+
+</script>
+</html>
